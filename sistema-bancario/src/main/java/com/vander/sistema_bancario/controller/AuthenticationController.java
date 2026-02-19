@@ -1,9 +1,9 @@
 package com.vander.sistema_bancario.controller;
 
-import com.vander.sistema_bancario.domain.product.users.AuthenticationDTO;
-import com.vander.sistema_bancario.domain.product.users.LoginResponseDTO;
-import com.vander.sistema_bancario.domain.product.users.RegisterDTO;
-import com.vander.sistema_bancario.domain.product.users.User;
+import com.vander.sistema_bancario.domain.users.AuthenticationDTO;
+import com.vander.sistema_bancario.domain.users.LoginResponseDTO;
+import com.vander.sistema_bancario.domain.users.RegisterDTO;
+import com.vander.sistema_bancario.domain.users.User;
 import com.vander.sistema_bancario.infra.security.TokenService;
 import com.vander.sistema_bancario.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -39,12 +39,27 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
+
+        if (repository.findByLogin(data.login()) != null) {
+            return ResponseEntity.badRequest().body("Login already exists.");
+        }
+
+        if (repository.existsByEmail(data.email())) {
+            return ResponseEntity.badRequest().body("Email already registered.");
+        }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.role());
 
-        this.repository.save(newUser);
+        User newUser = new User(
+                data.login(),
+                encryptedPassword,
+                data.role(),
+                data.birthDate(),
+                data.balance(),
+                data.creditLimit(),
+                data.email()
+        );
+        repository.save(newUser);
 
         return ResponseEntity.ok().build();
     }

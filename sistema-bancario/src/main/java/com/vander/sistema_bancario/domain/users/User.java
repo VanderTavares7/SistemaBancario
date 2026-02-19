@@ -1,21 +1,20 @@
-package com.vander.sistema_bancario.domain.product.users;
+package com.vander.sistema_bancario.domain.users;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Table(name = "users")
 @Entity(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -26,14 +25,19 @@ public class User implements UserDetails {
     private String login;
     private String password;
     private UserRole role;
-    private Integer age;
-    private Double balance;
-    private Double creditLimit;
+    private LocalDate birthDate;
+    private BigDecimal balance;
+    private BigDecimal creditLimit;
+    private String email;
 
-    public User(String login, String password, UserRole role){
+    public User(String login, String password, UserRole role, LocalDate birthDate, BigDecimal balance, BigDecimal creditLimit, String email) {
         this.login = login;
         this.password = password;
         this.role = role;
+        this.birthDate = birthDate;
+        this.balance = balance;
+        this.creditLimit = creditLimit;
+        this.email = email;
     }
 
     @Override
@@ -65,5 +69,8 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public int getAge() {
+        return java.time.Period.between(this.birthDate, java.time.LocalDate.now()).getYears();
     }
 }

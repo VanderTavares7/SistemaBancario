@@ -1,4 +1,4 @@
-package com.vander.sistema_bancario.domain.product.users;
+package com.vander.sistema_bancario.domain.users;
 
 public enum UserRole {
     ADMIN("admin"),
