@@ -1,53 +1,93 @@
-# 🏦 Sistema Bancário - Spring Boot
+# 🏦 Banking System API - Spring Boot
 
-Este projeto foi desenvolvido com o objetivo de **praticar e consolidar conhecimentos em desenvolvimento backend**, simulando um sistema bancário real, aplicando regras de negócio, segurança e organização de código.
+- A RESTful banking system API built with Spring Boot, designed to simulate real-world banking operations while applying clean architecture principles, business rules, and security best practices.
+- This project was developed to strengthen backend engineering skills and demonstrate practical knowledge of authentication, authorization, and financial domain logic.
 
-A aplicação é totalmente testada através do **Postman**, permitindo a validação das rotas e fluxos do sistema.
+# 📌 Overview
 
-## 🎯 Objetivo do Projeto
+- This application simulates a simplified banking environment, including:
+- User management
+- Credit and debit operations
+- Installment purchase logic
+- Credit limit handling
+- Role-based access control
+- Secure authentication flow
+- All endpoints are tested using Postman, ensuring reliability and correct workflow behavior.
 
-- Aprimorar habilidades em Java e Spring Boot
-- Trabalhar regras de negócio do mundo real
-- Praticar autenticação e autorização com Spring Security
-- Criar uma API REST organizada e escalável
-- Construir um projeto sólido para portfólio profissional
+# 🎯 Project Objectives
 
-## 🚀 Funcionalidades
+- Strengthen backend development skills with Java and Spring Boot
+- Apply real-world business rules in a financial context
+- Implement secure authentication and authorization
+- Design a scalable and well-structured REST API
+- Build a production-like project for professional portfolio
 
-- Cadastro de usuários com:
-  - Nome
-  - CPF
-  - Idade
-  - Saldo
-  - Limite de crédito
-- Regras de negócio:
-  - Usuários menores de 18 anos não podem solicitar cartão de crédito
-  - Compras no débito apenas se houver saldo suficiente
-  - Compras no crédito com parcelamento em até 12x
-  - Produtos até R$ 1.000 podem ser parcelados em até 6x
-  - Produtos acima de R$ 1.000 podem ser parcelados em até 12x
-- Depósito e débito em conta
-- Solicitação e aumento de limite de crédito
-- Autenticação e autorização com Spring Security
-- Criação de roles (USER, ADMIN)
-- Validação de usuário existente via CPF
+# 🚀 Features
+# 👤 User Management
 
-## 🔐 Segurança
+- User registration
+- Email validation (prevent duplicate accounts)
+- Account balance management
+- Credit limit management
 
-- Spring Security
-- Controle de acesso por roles
-- Endpoints protegidos
+# 💳 Credit Card Rules
 
-## 🧪 Testes da API
+- Users under 18 cannot request a credit card
+- Credit limit request and limit increase logic
+# 💰 Financial Operations
+- Deposit and debit transactions
+- Debit purchases allowed only with sufficient balance
+- Credit purchases with installment plans
 
-- Todos os endpoints são testados utilizando o **Postman**
-- Collection do Postman disponível no projeto (ou pode ser adicionada futuramente)
+# 📦 Installment Business Rules
 
-## 🛠️ Tecnologias Utilizadas
+-Products priced up to R$ 1,000 → up to 6 installments
+- Products priced above R$ 1,000 → up to 12 installments
 
-- Java
+# 🔐 Authentication & Authorization
+
+- Spring Security integration
+- Stateless authentication
+- Role-based access control (USER, ADMIN)
+- Protected endpoints
+
+# 🧠 Business Logic Highlights
+
+- Clear separation between Controller, Service, and Repository layers
+- Use of DTOs to prevent exposure of sensitive data
+- BigDecimal for financial precision
+- Custom business rule validation
+- Exception handling for robust API behavior
+
+# 🛠️ Tech Stack
+
+- Java 21
 - Spring Boot
 - Spring Security
 - JPA / Hibernate
-- Banco de dados relacional
-- Postman
+- Relational Database
+- Postman (API testing)
+
+# 🧪 API Testing
+
+- All endpoints are validated using Postman.
+- A Postman collection can be included for easy testing and replication.
+
+# 🏗️ Architecture Principles
+
+- Layered architecture (Controller → Service → Repository)
+- Stateless security configuration
+- Business rule isolation in Service layer
+- Clean and readable code organization
+
+# 📈 Future Improvements
+
+- Implement transaction management (@Transactional)
+- Add global exception handler
+- Implement unit and integration tests
+- Add Swagger/OpenAPI documentation
+- Docker containerization
+- Implement caching for performance optimization
+
+# 👨‍💻 Developer
+- Developed as a backend practice project focused on building real-world API design skills and financial system logic.
