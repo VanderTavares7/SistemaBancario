@@ -8,6 +8,7 @@ import com.vander.sistema_bancario.infra.security.TokenService;
 import com.vander.sistema_bancario.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,10 +41,6 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
 
-        if (repository.findByLogin(data.login()) != null) {
-            return ResponseEntity.badRequest().body("Login already exists.");
-        }
-
         if (repository.existsByEmail(data.email())) {
             return ResponseEntity.badRequest().body("Email already registered.");
         }
@@ -61,6 +58,7 @@ public class AuthenticationController {
         );
         repository.save(newUser);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("User registered successfully.");
     }
 }

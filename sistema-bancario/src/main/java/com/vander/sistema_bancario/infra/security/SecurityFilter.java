@@ -16,7 +16,10 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
+    // Service responsible for validating and generating JWT tokens
     private final TokenService tokenService;
+
+    // Repository used to load user details from the database
     private final UserRepository userRepository;
 
     public SecurityFilter(TokenService tokenService, UserRepository userRepository) {
@@ -29,13 +32,21 @@ public class SecurityFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        // Extract token from Authorization header
         var token = recoverToken(request);
+
         if (token != null) {
+
+            // Validate the token and retrieve the username (subject)
             var login = tokenService.validateToken(token);
 
+            // Load user details from database
             UserDetails user = userRepository.findByLogin(login);
 
             if (user != null) {
+
+                // Create authentication object with user authorities (roles/permissions)
                 var authentication =
                         new UsernamePasswordAuthenticationToken(
                                 user,
@@ -43,20 +54,27 @@ public class SecurityFilter extends OncePerRequestFilter {
                                 user.getAuthorities()
                         );
 
+                // Set authenticated user into SecurityContext
                 SecurityContextHolder.getContext()
                         .setAuthentication(authentication);
             }
         }
+
+        // Continue filter chain
         filterChain.doFilter(request, response);
     }
 
     private String recoverToken(HttpServletRequest request) {
+
+        // Retrieve Authorization header
         var authHeader = request.getHeader("Authorization");
 
+        // Validate header format
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
 
+        // Remove "Bearer " prefix and return the token
         return authHeader.replace("Bearer ", "");
     }
 }

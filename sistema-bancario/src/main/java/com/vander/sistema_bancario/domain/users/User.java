@@ -1,5 +1,6 @@
 package com.vander.sistema_bancario.domain.users;
 
+import com.vander.sistema_bancario.entity.PurchaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,6 +46,9 @@ public class User implements UserDetails {
         if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<PurchaseEntity> purchases;
 
     @Override
     public String getUsername() {

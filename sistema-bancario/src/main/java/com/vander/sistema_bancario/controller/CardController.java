@@ -18,6 +18,6 @@ public class CardController {
     @PostMapping("/requestCard")
     public ResponseEntity requestCard() {
         cardService.requestCard();
-        return ResponseEntity.ok("Cartão solicitado com sucesso.");
+        return ResponseEntity.ok("Card requested successfully.");
     }
 }
