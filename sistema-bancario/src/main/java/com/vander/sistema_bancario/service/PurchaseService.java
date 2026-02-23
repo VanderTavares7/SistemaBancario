@@ -1,6 +1,7 @@
 package com.vander.sistema_bancario.service;
 
 import com.vander.sistema_bancario.domain.users.User;
+import com.vander.sistema_bancario.dto.InstallingProductDTO;
 import com.vander.sistema_bancario.dto.PurchaseRequestDTO;
 import com.vander.sistema_bancario.entity.ProductEntity;
 import com.vander.sistema_bancario.entity.PurchaseEntity;
@@ -77,5 +78,25 @@ public class PurchaseService {
         productRepository.save(product);
 
         return ResponseEntity.ok("Purchase made successfully!");
+    }
+
+    public String installingProduct(InstallingProductDTO dto) {
+
+        // Search user
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        // Search product
+        ProductEntity product = productRepository.findById(dto.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found."));
+
+        // Products above 1000 can be paid in 12 installments
+        if (product.getProductPrice()
+                .compareTo(BigDecimal.valueOf(1000)) >= 0) {
+
+            return "12-month payment plan approved.";
+        }
+
+        return "6-month payment plan approved.";
     }
 }

@@ -1,5 +1,6 @@
 package com.vander.sistema_bancario.controller;
 
+import com.vander.sistema_bancario.dto.InstallingProductDTO;
 import com.vander.sistema_bancario.dto.PurchaseRequestDTO;
 import com.vander.sistema_bancario.service.PurchaseService;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,14 @@ public class PurchaseController {
     @PostMapping("/purchases")
     public ResponseEntity<?> buyProduct(@RequestBody PurchaseRequestDTO request) {
         return purchaseService.buyProduct(request);
+    }
+
+    @PostMapping("/installingProduct")
+    public ResponseEntity<String> installingProduct(
+            @RequestBody InstallingProductDTO dto) {
+
+        String result = purchaseService.installingProduct(dto);
+
+        return ResponseEntity.ok(result);
     }
 }
